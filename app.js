@@ -2,7 +2,7 @@ let allPokemon = [];
 let tableauFin = [];
 const searchInput = document.querySelector('.recherche-poke input');
 
-
+//Appel API de base
 function fetchPokemonBase() {
 
     fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
@@ -18,7 +18,8 @@ function fetchPokemonBase() {
 }
 
 fetchPokemonBase();
- 
+
+//Gere les données de l'API 
 function fetchPokemonComplet(pokemon) {
 
     let objPokemonFull = {};
