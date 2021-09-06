@@ -28,7 +28,6 @@ function fetchPokemonBase() {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
         .then(reponse => reponse.json())
         .then((allPoke) => {
-            // console.log(allPoke);
             allPoke.results.forEach((pokemon) => {
                 fetchPokemonComplet(pokemon);
             })
@@ -49,7 +48,6 @@ function fetchPokemonComplet(pokemon) {
     fetch(url)
     .then(reponse => reponse.json())
     .then((pokeData) => {
-        // console.log(pokeData);
 
         objPokemonFull.pic = pokeData.sprites.front_default;
         objPokemonFull.type = pokeData.types[0].type.name;
@@ -58,17 +56,14 @@ function fetchPokemonComplet(pokemon) {
         fetch(`https://pokeapi.co/api/v2/pokemon-species/${nameP}`)
         .then(reponse => reponse.json())
         .then((pokeData) => {
-            // console.log(pokeData);
             objPokemonFull.name = pokeData.names[4].name;
             allPokemon.push(objPokemonFull);
 
             if(allPokemon.length === 151) {
-                // console.log(allPokemon)
 
                 tableauFin = allPokemon.sort((a,b) => {
                     return a.id - b.id;
                 }).slice(0,21);
-                // console.log(tableauFin)
 
                 createCard(tableauFin);
             }
@@ -102,10 +97,27 @@ function createCard(arr) {
 }
 
 
+//Scroll Infini 
 
+window.addEventListener('scroll', () => {
+    const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
 
+    if(clientHeight + scrollTop >= scrollHeight - 20) {
+        addPoke(6);
+    }
+})
 
+let index = 21;
 
+function addPoke(nb) {
+
+    if(index > 151) {
+        return;
+    }
+    const arrToAdd = allPokemon.slice(index, index + nb);
+    createCard(arrToAdd);
+    index += nb;
+}
 
 
 //Animation Input 
